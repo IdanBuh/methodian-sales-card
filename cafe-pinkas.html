@@ -1,0 +1,924 @@
+<!DOCTYPE html>
+<html lang="he" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>קפה פינקס — לא רק קפה, אווירה</title>
+<meta name="description" content="קפה פינקס — קלייה טרייה, מאפים ביתיים ואווירה צעירה במרכז העיר. בואו לטעום.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Rubik:wght@400;500;600;700;800;900&family=Caveat:wght@600;700&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --cream: #FFF8EC;
+    --cream2: #FFF1DA;
+    --paper: #FFFDF8;
+    --brown: #2E1C12;
+    --brown2: #6B4226;
+    --terracotta: #E8643A;
+    --terracotta-dark: #C84F2A;
+    --mustard: #F2B705;
+    --mint: #1FB6A4;
+    --pink: #FF8FA3;
+    --line: rgba(46,28,18,0.1);
+    --shadow: 0 10px 30px rgba(46,28,18,0.08);
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  html { scroll-behavior: smooth; }
+
+  body {
+    background: var(--cream);
+    color: var(--brown);
+    font-family: 'Rubik', sans-serif;
+    direction: rtl;
+    overflow-x: hidden;
+  }
+
+  img, svg { display: block; max-width: 100%; }
+
+  .wrap { max-width: 1140px; margin: 0 auto; padding: 0 24px; }
+
+  a { color: inherit; text-decoration: none; }
+
+  .reveal { opacity: 0; transform: translateY(28px); transition: opacity 0.7s ease, transform 0.7s ease; }
+  .reveal.in-view { opacity: 1; transform: translateY(0); }
+  .reveal.delay-1.in-view { transition-delay: 0.1s; }
+  .reveal.delay-2.in-view { transition-delay: 0.2s; }
+  .reveal.delay-3.in-view { transition-delay: 0.3s; }
+
+  /* ===== NAV ===== */
+  .nav {
+    position: fixed;
+    top: 0; right: 0; left: 0;
+    z-index: 100;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 18px 24px;
+    transition: all 0.3s ease;
+  }
+
+  .nav.scrolled {
+    background: rgba(255,248,236,0.92);
+    backdrop-filter: blur(10px);
+    box-shadow: var(--shadow);
+    padding: 12px 24px;
+  }
+
+  .logo { display: flex; align-items: center; gap: 10px; font-weight: 900; font-size: 20px; }
+  .logo-mark {
+    width: 38px; height: 38px;
+    border-radius: 50%;
+    background: var(--terracotta);
+    display: flex; align-items: center; justify-content: center;
+    font-size: 18px;
+    box-shadow: 0 4px 0 var(--terracotta-dark);
+  }
+  .logo span { color: var(--terracotta); }
+
+  .nav-links { display: flex; align-items: center; gap: 30px; font-weight: 600; font-size: 14px; }
+  .nav-links a { position: relative; padding: 4px 0; }
+  .nav-links a::after {
+    content: ''; position: absolute; bottom: -2px; right: 0; left: 0; height: 2px;
+    background: var(--terracotta); transform: scaleX(0); transition: transform 0.25s ease;
+  }
+  .nav-links a:hover::after { transform: scaleX(1); }
+
+  .nav-cta {
+    background: var(--brown);
+    color: var(--cream);
+    font-weight: 700;
+    font-size: 13px;
+    padding: 10px 20px;
+    border-radius: 30px;
+    box-shadow: 0 4px 0 #18100a;
+    transition: transform 0.15s ease, box-shadow 0.15s ease;
+  }
+  .nav-cta:hover { transform: translateY(-2px); box-shadow: 0 6px 0 #18100a; }
+  .nav-cta:active { transform: translateY(2px); box-shadow: 0 2px 0 #18100a; }
+
+  .burger { display: none; flex-direction: column; gap: 5px; cursor: pointer; z-index: 110; }
+  .burger span { width: 24px; height: 2.5px; background: var(--brown); border-radius: 2px; transition: 0.3s; }
+  .burger.open span:nth-child(1) { transform: translateY(7.5px) rotate(45deg); }
+  .burger.open span:nth-child(2) { opacity: 0; }
+  .burger.open span:nth-child(3) { transform: translateY(-7.5px) rotate(-45deg); }
+
+  .mobile-menu {
+    position: fixed; inset: 0; background: var(--cream2);
+    z-index: 99; display: flex; flex-direction: column;
+    align-items: center; justify-content: center; gap: 28px;
+    font-size: 24px; font-weight: 800;
+    transform: translateY(-100%); transition: transform 0.35s ease;
+  }
+  .mobile-menu.open { transform: translateY(0); }
+
+  /* ===== HERO ===== */
+  .hero {
+    position: relative;
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    padding-top: 80px;
+    overflow: hidden;
+  }
+
+  .blob {
+    position: absolute;
+    border-radius: 50%;
+    filter: blur(2px);
+    opacity: 0.5;
+    animation: float 9s ease-in-out infinite;
+  }
+  .blob.b1 { width: 220px; height: 220px; background: var(--mustard); top: 8%; left: 4%; opacity: 0.35; }
+  .blob.b2 { width: 160px; height: 160px; background: var(--mint); bottom: 14%; left: 12%; opacity: 0.3; animation-delay: -3s; }
+  .blob.b3 { width: 120px; height: 120px; background: var(--pink); top: 18%; right: 6%; opacity: 0.3; animation-delay: -5s; }
+
+  @keyframes float {
+    0%, 100% { transform: translateY(0) translateX(0); }
+    50% { transform: translateY(-22px) translateX(10px); }
+  }
+
+  .hero-grid {
+    position: relative; z-index: 2;
+    display: grid;
+    grid-template-columns: 1.1fr 0.9fr;
+    gap: 40px;
+    align-items: center;
+    width: 100%;
+  }
+
+  .eyebrow {
+    display: inline-flex; align-items: center; gap: 8px;
+    background: var(--paper);
+    border: 1px solid var(--line);
+    border-radius: 30px;
+    padding: 7px 16px;
+    font-size: 12px;
+    font-weight: 700;
+    color: var(--terracotta-dark);
+    box-shadow: var(--shadow);
+    margin-bottom: 22px;
+  }
+
+  .hero h1 {
+    font-size: 58px;
+    font-weight: 900;
+    line-height: 1.08;
+    letter-spacing: -0.01em;
+    margin-bottom: 18px;
+  }
+
+  .hero h1 .script {
+    font-family: 'Caveat', cursive;
+    color: var(--terracotta);
+    font-size: 1.15em;
+    font-weight: 700;
+    display: inline-block;
+    transform: rotate(-2deg);
+  }
+
+  .hero p.lead {
+    font-size: 18px;
+    color: var(--brown2);
+    line-height: 1.7;
+    max-width: 480px;
+    margin-bottom: 30px;
+  }
+
+  .hero-actions { display: flex; gap: 14px; flex-wrap: wrap; margin-bottom: 34px; }
+
+  .btn {
+    display: inline-flex; align-items: center; gap: 8px;
+    padding: 15px 26px;
+    border-radius: 40px;
+    font-weight: 800;
+    font-size: 15px;
+    cursor: pointer;
+    border: none;
+    font-family: 'Rubik', sans-serif;
+    transition: transform 0.15s ease, box-shadow 0.15s ease;
+  }
+
+  .btn-primary {
+    background: var(--terracotta);
+    color: white;
+    box-shadow: 0 5px 0 var(--terracotta-dark);
+  }
+  .btn-primary:hover { transform: translateY(-2px); box-shadow: 0 7px 0 var(--terracotta-dark); }
+  .btn-primary:active { transform: translateY(3px); box-shadow: 0 2px 0 var(--terracotta-dark); }
+
+  .btn-outline {
+    background: transparent;
+    color: var(--brown);
+    border: 2px solid var(--brown);
+  }
+  .btn-outline:hover { background: var(--brown); color: var(--cream); }
+
+  .hero-trust { display: flex; align-items: center; gap: 14px; font-size: 13px; color: var(--brown2); font-weight: 600; }
+  .stars { color: var(--mustard); letter-spacing: 1px; }
+
+  /* coffee cup illustration */
+  .cup-stage { position: relative; display: flex; justify-content: center; align-items: flex-end; height: 420px; }
+  .saucer {
+    position: absolute; bottom: 30px;
+    width: 260px; height: 26px;
+    background: var(--paper);
+    border-radius: 50%;
+    box-shadow: var(--shadow);
+  }
+  .cup {
+    position: relative;
+    width: 200px; height: 190px;
+    background: linear-gradient(160deg, #fff, var(--cream2));
+    border-radius: 14px 14px 70px 70px / 14px 14px 110px 110px;
+    box-shadow: var(--shadow), inset 0 -10px 0 rgba(46,28,18,0.04);
+    z-index: 2;
+  }
+  .cup::before {
+    content: '';
+    position: absolute; top: 14px; right: 14px; left: 14px;
+    height: 70px;
+    background: radial-gradient(ellipse at center, #6F4423, #3A2317);
+    border-radius: 50%;
+  }
+  .handle {
+    position: absolute; left: -38px; top: 46px;
+    width: 56px; height: 70px;
+    border: 14px solid var(--paper);
+    border-left-color: transparent;
+    border-radius: 50%;
+    box-shadow: var(--shadow);
+  }
+  .steam { position: absolute; top: -50px; right: 70px; display: flex; gap: 18px; z-index: 1; }
+  .steam i {
+    display: block; width: 8px; height: 40px;
+    background: linear-gradient(to top, rgba(107,66,38,0), rgba(107,66,38,0.35));
+    border-radius: 10px;
+    animation: rise 2.6s ease-in-out infinite;
+  }
+  .steam i:nth-child(2) { animation-delay: 0.5s; height: 52px; }
+  .steam i:nth-child(3) { animation-delay: 1s; }
+
+  @keyframes rise {
+    0% { transform: translateY(0) scaleY(1); opacity: 0; }
+    25% { opacity: 1; }
+    100% { transform: translateY(-40px) scaleY(1.3); opacity: 0; }
+  }
+
+  .bean { position: absolute; font-size: 26px; animation: spin 6s linear infinite; }
+  .bean.b1 { top: 10px; left: 0; animation-duration: 8s; }
+  .bean.b2 { bottom: 60px; right: -10px; animation-duration: 7s; animation-direction: reverse; }
+  @keyframes spin { from { transform: rotate(0deg); } to { transform: rotate(360deg); } }
+
+  @media (max-width: 880px) {
+    .hero-grid { grid-template-columns: 1fr; text-align: center; }
+    .hero h1 { font-size: 40px; }
+    .hero p.lead { margin: 0 auto 28px; }
+    .hero-actions, .hero-trust { justify-content: center; }
+    .nav-links, .nav-cta { display: none; }
+    .burger { display: flex; }
+    .cup-stage { height: 300px; margin-top: 20px; }
+    .cup { width: 160px; height: 150px; }
+  }
+
+  /* ===== MARQUEE ===== */
+  .marquee {
+    background: var(--brown);
+    color: var(--cream);
+    padding: 14px 0;
+    overflow: hidden;
+    white-space: nowrap;
+  }
+  .marquee-track { display: inline-flex; gap: 40px; animation: scroll-x 22s linear infinite; }
+  .marquee span { font-weight: 800; font-size: 14px; letter-spacing: 0.03em; display: inline-flex; align-items: center; gap: 10px; }
+  .marquee span em { font-style: normal; color: var(--mustard); }
+  @keyframes scroll-x { from { transform: translateX(0); } to { transform: translateX(-50%); } }
+
+  /* ===== SECTION GENERIC ===== */
+  section { padding: 100px 0; position: relative; }
+  .section-tag {
+    display: inline-block;
+    font-size: 12px;
+    font-weight: 800;
+    letter-spacing: 0.1em;
+    color: var(--terracotta-dark);
+    background: rgba(232,100,58,0.1);
+    padding: 6px 14px;
+    border-radius: 20px;
+    margin-bottom: 14px;
+  }
+  .section-title { font-size: 38px; font-weight: 900; line-height: 1.2; margin-bottom: 16px; }
+  .section-title .hl { color: var(--terracotta); }
+  .section-lead { font-size: 16px; color: var(--brown2); max-width: 560px; line-height: 1.7; }
+
+  /* ===== ABOUT ===== */
+  .about-grid { display: grid; grid-template-columns: 0.9fr 1.1fr; gap: 60px; align-items: center; }
+  .about-art {
+    position: relative;
+    height: 380px;
+    border-radius: 28px;
+    background: linear-gradient(135deg, var(--mustard), var(--terracotta));
+    box-shadow: var(--shadow);
+    display: flex; align-items: center; justify-content: center;
+    font-size: 90px;
+  }
+  .about-art::after {
+    content: '';
+    position: absolute; inset: -14px;
+    border: 2px dashed rgba(46,28,18,0.18);
+    border-radius: 36px;
+    z-index: -1;
+  }
+
+  .stat-row { display: grid; grid-template-columns: repeat(3, 1fr); gap: 18px; margin-top: 36px; }
+  .stat-card {
+    background: var(--paper);
+    border: 1px solid var(--line);
+    border-radius: 16px;
+    padding: 18px;
+    text-align: center;
+    box-shadow: var(--shadow);
+  }
+  .stat-num { font-size: 30px; font-weight: 900; color: var(--terracotta); }
+  .stat-label { font-size: 12px; color: var(--brown2); font-weight: 600; margin-top: 4px; }
+
+  @media (max-width: 880px) {
+    .about-grid { grid-template-columns: 1fr; }
+    .stat-row { grid-template-columns: 1fr 1fr 1fr; gap: 10px; }
+  }
+
+  /* ===== MENU ===== */
+  .menu-section { background: var(--cream2); }
+  .menu-head { text-align: center; max-width: 600px; margin: 0 auto 40px; }
+  .menu-head .section-lead { margin: 0 auto; }
+
+  .tabs { display: flex; justify-content: center; gap: 10px; flex-wrap: wrap; margin-bottom: 40px; }
+  .tab-btn {
+    background: var(--paper);
+    border: 2px solid var(--line);
+    color: var(--brown2);
+    font-family: 'Rubik', sans-serif;
+    font-weight: 700;
+    font-size: 14px;
+    padding: 10px 20px;
+    border-radius: 30px;
+    cursor: pointer;
+    transition: all 0.2s ease;
+  }
+  .tab-btn:hover { border-color: var(--terracotta); }
+  .tab-btn.active { background: var(--terracotta); border-color: var(--terracotta); color: white; }
+
+  .tab-panel { display: none; }
+  .tab-panel.active { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+  @media (max-width: 700px) { .tab-panel.active { grid-template-columns: 1fr; } }
+
+  .menu-item {
+    background: var(--paper);
+    border: 1px solid var(--line);
+    border-radius: 16px;
+    padding: 18px 20px;
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    gap: 14px;
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+  }
+  .menu-item:hover { transform: translateY(-4px); box-shadow: var(--shadow); }
+
+  .menu-item-name { font-weight: 800; font-size: 16px; display: flex; align-items: center; gap: 8px; }
+  .menu-item-desc { font-size: 13px; color: var(--brown2); margin-top: 6px; line-height: 1.5; }
+  .menu-item-price { font-weight: 900; font-size: 16px; color: var(--terracotta-dark); white-space: nowrap; }
+  .badge-hot {
+    background: var(--mustard); color: var(--brown);
+    font-size: 9px; font-weight: 900; padding: 2px 7px; border-radius: 10px;
+  }
+
+  /* ===== GALLERY ===== */
+  .gallery-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    grid-auto-rows: 130px;
+    gap: 12px;
+  }
+  .gallery-grid .g-item:nth-child(1) { grid-row: span 2; grid-column: span 2; }
+  .gallery-grid .g-item:nth-child(4) { grid-row: span 2; }
+  .gallery-grid .g-item:nth-child(6) { grid-column: span 2; }
+
+  .g-item {
+    border-radius: 18px;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 34px;
+    cursor: pointer;
+    position: relative;
+    overflow: hidden;
+    transition: transform 0.3s ease;
+  }
+  .g-item:hover { transform: scale(0.97); }
+  .g-item::after {
+    content: attr(data-label);
+    position: absolute; inset: auto 0 0 0;
+    background: linear-gradient(to top, rgba(0,0,0,0.55), transparent);
+    color: white; font-size: 12px; font-weight: 700;
+    padding: 24px 14px 10px;
+    opacity: 0; transition: opacity 0.25s ease;
+  }
+  .g-item:hover::after { opacity: 1; }
+
+  .g1 { background: linear-gradient(135deg, #E8643A, #F2B705); }
+  .g2 { background: linear-gradient(135deg, #6B4226, #2E1C12); }
+  .g3 { background: linear-gradient(135deg, #1FB6A4, #0d8a7c); }
+  .g4 { background: linear-gradient(135deg, #FF8FA3, #E8643A); }
+  .g5 { background: linear-gradient(135deg, #F2B705, #E8643A); }
+  .g6 { background: linear-gradient(135deg, #2E1C12, #6B4226); }
+
+  @media (max-width: 700px) {
+    .gallery-grid { grid-template-columns: repeat(2, 1fr); }
+    .gallery-grid .g-item:nth-child(1) { grid-column: span 2; }
+    .gallery-grid .g-item:nth-child(6) { grid-column: span 1; }
+  }
+
+  /* ===== TESTIMONIALS ===== */
+  .testi-section { background: var(--brown); color: var(--cream); }
+  .testi-section .section-tag { background: rgba(255,255,255,0.1); color: var(--mustard); }
+  .testi-section .section-title { color: var(--cream); }
+  .testi-section .section-lead { color: rgba(255,248,236,0.65); }
+
+  .testi-wrap { position: relative; max-width: 640px; margin: 50px auto 0; }
+  .testi-card {
+    background: rgba(255,255,255,0.06);
+    border: 1px solid rgba(255,255,255,0.1);
+    border-radius: 22px;
+    padding: 36px 40px;
+    text-align: center;
+    display: none;
+  }
+  .testi-card.active { display: block; animation: fadeIn 0.5s ease; }
+  @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+
+  .testi-stars { color: var(--mustard); margin-bottom: 14px; letter-spacing: 2px; }
+  .testi-quote { font-size: 19px; line-height: 1.7; font-weight: 500; margin-bottom: 20px; }
+  .testi-name { font-weight: 800; }
+  .testi-role { font-size: 12px; color: rgba(255,248,236,0.5); }
+
+  .testi-controls { display: flex; justify-content: center; gap: 16px; margin-top: 24px; }
+  .testi-arrow {
+    width: 42px; height: 42px; border-radius: 50%;
+    background: rgba(255,255,255,0.08);
+    border: 1px solid rgba(255,255,255,0.15);
+    color: var(--cream);
+    cursor: pointer; font-size: 16px;
+    display: flex; align-items: center; justify-content: center;
+    transition: background 0.2s ease;
+  }
+  .testi-arrow:hover { background: var(--terracotta); border-color: var(--terracotta); }
+
+  .testi-dots { display: flex; justify-content: center; gap: 8px; margin-top: 18px; }
+  .testi-dot { width: 8px; height: 8px; border-radius: 50%; background: rgba(255,255,255,0.25); cursor: pointer; transition: all 0.2s ease; }
+  .testi-dot.active { background: var(--mustard); width: 22px; border-radius: 10px; }
+
+  /* ===== LOCATION ===== */
+  .loc-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 40px; align-items: center; }
+  .map-box {
+    height: 320px; border-radius: 24px;
+    background:
+      repeating-linear-gradient(45deg, rgba(46,28,18,0.04) 0 2px, transparent 2px 14px),
+      linear-gradient(135deg, var(--cream2), var(--paper));
+    border: 1px solid var(--line);
+    display: flex; align-items: center; justify-content: center;
+    position: relative;
+    box-shadow: var(--shadow);
+  }
+  .map-pin { font-size: 50px; animation: bounce 1.8s ease-in-out infinite; }
+  @keyframes bounce { 0%,100% { transform: translateY(0); } 50% { transform: translateY(-12px); } }
+
+  .hours-list { display: flex; flex-direction: column; gap: 4px; margin: 22px 0; }
+  .hours-row {
+    display: flex; justify-content: space-between; align-items: center;
+    padding: 11px 16px;
+    border-radius: 10px;
+    font-size: 14px;
+    font-weight: 600;
+    color: var(--brown2);
+  }
+  .hours-row.today { background: rgba(232,100,58,0.1); color: var(--brown); font-weight: 800; }
+  .hours-row .open-pill {
+    font-size: 11px; font-weight: 900; padding: 3px 10px; border-radius: 20px;
+    background: var(--mint); color: white; margin-right: 8px;
+  }
+  .hours-row .closed-pill { background: #999; }
+
+  .contact-mini { display: flex; gap: 16px; flex-wrap: wrap; margin-top: 10px; }
+  .contact-chip {
+    background: var(--paper); border: 1px solid var(--line); border-radius: 14px;
+    padding: 12px 16px; font-size: 13px; font-weight: 700; display: flex; gap: 8px; align-items: center;
+    box-shadow: var(--shadow);
+  }
+
+  /* ===== NEWSLETTER ===== */
+  .club-section {
+    background: linear-gradient(135deg, var(--terracotta), var(--mustard));
+    color: var(--brown);
+    border-radius: 32px;
+    margin: 0 24px;
+    padding: 60px 40px;
+    text-align: center;
+  }
+  .club-section .wrap { max-width: 560px; }
+  .club-section h2 { font-size: 32px; font-weight: 900; margin-bottom: 12px; }
+  .club-section p { font-size: 15px; margin-bottom: 26px; opacity: 0.85; }
+
+  .club-form { display: flex; gap: 10px; max-width: 420px; margin: 0 auto; }
+  .club-form input {
+    flex: 1;
+    padding: 14px 18px;
+    border-radius: 30px;
+    border: none;
+    font-family: 'Rubik', sans-serif;
+    font-size: 14px;
+  }
+  .club-form input:focus { outline: 3px solid rgba(46,28,18,0.25); }
+  .club-form button {
+    background: var(--brown); color: var(--cream);
+    border: none; border-radius: 30px;
+    padding: 14px 24px; font-weight: 800; font-size: 14px;
+    cursor: pointer; font-family: 'Rubik', sans-serif;
+    white-space: nowrap;
+  }
+  @media (max-width: 520px) { .club-form { flex-direction: column; } }
+
+  .club-success { display: none; margin-top: 16px; font-weight: 800; }
+  .club-success.show { display: block; animation: fadeIn 0.4s ease; }
+
+  /* ===== FOOTER ===== */
+  footer { padding: 60px 0 30px; text-align: center; }
+  .footer-social { display: flex; justify-content: center; gap: 14px; margin: 20px 0; }
+  .footer-social a {
+    width: 42px; height: 42px; border-radius: 50%;
+    background: var(--paper); border: 1px solid var(--line);
+    display: flex; align-items: center; justify-content: center;
+    font-size: 18px; transition: all 0.2s ease;
+  }
+  .footer-social a:hover { background: var(--terracotta); color: white; transform: translateY(-3px); }
+  .footer-fine { font-size: 12px; color: var(--brown2); margin-top: 18px; }
+
+  /* ===== FLOATING CTA ===== */
+  .float-cta {
+    position: fixed; bottom: 24px; left: 24px; z-index: 90;
+    background: var(--mint);
+    color: white;
+    border-radius: 30px;
+    padding: 14px 20px;
+    font-weight: 800;
+    font-size: 14px;
+    box-shadow: 0 8px 24px rgba(31,182,164,0.4);
+    display: flex; align-items: center; gap: 8px;
+    animation: pulse 2.5s ease-in-out infinite;
+  }
+  @keyframes pulse { 0%,100% { box-shadow: 0 8px 24px rgba(31,182,164,0.4); } 50% { box-shadow: 0 8px 30px rgba(31,182,164,0.65); } }
+
+  @media (max-width: 880px) {
+    .about-grid, .loc-grid { grid-template-columns: 1fr; }
+    .section-title { font-size: 28px; }
+    section { padding: 70px 0; }
+  }
+</style>
+</head>
+<body>
+
+  <!-- NAV -->
+  <nav class="nav" id="nav">
+    <div class="logo"><div class="logo-mark">☕</div>קפה <span>פינקס</span></div>
+    <div class="nav-links">
+      <a href="#about">הסיפור שלנו</a>
+      <a href="#menu">התפריט</a>
+      <a href="#gallery">גלריה</a>
+      <a href="#location">מיקום ושעות</a>
+    </div>
+    <a href="#location" class="nav-cta">הזמינו מקום</a>
+    <div class="burger" id="burger" onclick="toggleMenu()"><span></span><span></span><span></span></div>
+  </nav>
+
+  <div class="mobile-menu" id="mobileMenu">
+    <a href="#about" onclick="toggleMenu()">הסיפור שלנו</a>
+    <a href="#menu" onclick="toggleMenu()">התפריט</a>
+    <a href="#gallery" onclick="toggleMenu()">גלריה</a>
+    <a href="#location" onclick="toggleMenu()">מיקום ושעות</a>
+  </div>
+
+  <!-- HERO -->
+  <header class="hero">
+    <div class="blob b1"></div>
+    <div class="blob b2"></div>
+    <div class="blob b3"></div>
+    <div class="wrap hero-grid">
+      <div>
+        <div class="eyebrow">☀️ פתוח עכשיו · קלייה טרייה כל בוקר</div>
+        <h1>קפה שמעיר<br>את <span class="script">היום שלך</span><br>נכון.</h1>
+        <p class="lead">פינה חמה באמצע העיר עם פולי קפה איכותיים, מאפים ביתיים ואווירה שאתם פשוט רוצים להישאר בה. בואו לפגוש את פינקס.</p>
+        <div class="hero-actions">
+          <a href="#menu" class="btn btn-primary">לתפריט המלא ☕</a>
+          <a href="#location" class="btn btn-outline">איך מגיעים</a>
+        </div>
+        <div class="hero-trust">
+          <span class="stars">★★★★★</span>
+          <span>4.9 דירוג ממוצע מעל 600 ביקורות</span>
+        </div>
+      </div>
+      <div class="cup-stage">
+        <div class="bean b1">🫘</div>
+        <div class="bean b2">🫘</div>
+        <div class="steam"><i></i><i></i><i></i></div>
+        <div class="cup"><div class="handle"></div></div>
+        <div class="saucer"></div>
+      </div>
+    </div>
+  </header>
+
+  <!-- MARQUEE -->
+  <div class="marquee">
+    <div class="marquee-track">
+      <span>☕ <em>קלייה טרייה</em> מדי יום</span>
+      <span>🥐 מאפים ביתיים</span>
+      <span>🌿 פולים ממקור אחראי</span>
+      <span>🎶 אווירה צעירה</span>
+      <span>📍 במרכז העיר</span>
+      <span>☕ <em>קלייה טרייה</em> מדי יום</span>
+      <span>🥐 מאפים ביתיים</span>
+      <span>🌿 פולים ממקור אחראי</span>
+      <span>🎶 אווירה צעירה</span>
+      <span>📍 במרכז העיר</span>
+    </div>
+  </div>
+
+  <!-- ABOUT -->
+  <section id="about">
+    <div class="wrap about-grid">
+      <div class="about-art reveal">🫘</div>
+      <div>
+        <div class="section-tag reveal">הסיפור שלנו</div>
+        <h2 class="section-title reveal delay-1">לא עוד בית קפה.<br><span class="hl">חבר'ה שאוהבים קפה.</span></h2>
+        <p class="section-lead reveal delay-2">פינקס נולד מתוך אהבה אמיתית לקפה טוב ולרגעים פשוטים — פגישה עם חברים, עבודה מהשולחן ליד החלון, או רגע שקט עם ספר. כל כוס נקלית טרי, כל מאפה נאפה בבוקר, וכל מי שנכנס — יוצא עם חיוך.</p>
+        <div class="stat-row reveal delay-3">
+          <div class="stat-card"><div class="stat-num" data-count="1200">0</div><div class="stat-label">כוסות קפה בשבוע</div></div>
+          <div class="stat-card"><div class="stat-num" data-count="32">0</div><div class="stat-label">סוגי פולים שניסינו</div></div>
+          <div class="stat-card"><div class="stat-num" data-count="98">0</div><div class="stat-label">% לקוחות חוזרים</div></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- MENU -->
+  <section id="menu" class="menu-section">
+    <div class="wrap">
+      <div class="menu-head">
+        <div class="section-tag reveal">התפריט</div>
+        <h2 class="section-title reveal delay-1">מה <span class="hl">בא לכם</span> היום?</h2>
+        <p class="section-lead reveal delay-2">מהאספרסו הקלאסי ועד החתימה שלנו — כל מה שבא לכם, מוגש טרי.</p>
+      </div>
+
+      <div class="tabs reveal">
+        <button class="tab-btn active" data-tab="hot" onclick="switchTab('hot', this)">☕ קפה חם</button>
+        <button class="tab-btn" data-tab="cold" onclick="switchTab('cold', this)">🧊 קפה קר</button>
+        <button class="tab-btn" data-tab="pastry" onclick="switchTab('pastry', this)">🥐 מאפים</button>
+        <button class="tab-btn" data-tab="meal" onclick="switchTab('meal', this)">🍳 ארוחות</button>
+      </div>
+
+      <div class="tab-panel active" id="tab-hot">
+        <div class="menu-item"><div><div class="menu-item-name">אספרסו</div><div class="menu-item-desc">שוט כפול, קרמה עשירה</div></div><div class="menu-item-price">12 ₪</div></div>
+        <div class="menu-item"><div><div class="menu-item-name">קפוצ'ינו</div><div class="menu-item-desc">קצף משי, אבקת קקאו</div></div><div class="menu-item-price">16 ₪</div></div>
+        <div class="menu-item"><div><div class="menu-item-name">לאטה וניל</div><div class="menu-item-desc">חלב מוקצף, סירופ וניל ביתי</div></div><div class="menu-item-price">19 ₪</div></div>
+        <div class="menu-item"><div><div class="menu-item-name">פלאט וייט</div><div class="menu-item-desc">שוט כפול, מיקרופום עדין</div></div><div class="menu-item-price">18 ₪</div></div>
+        <div class="menu-item"><div><div class="menu-item-name">הפוך פינקס <span class="badge-hot">הכי נמכר</span></div><div class="menu-item-desc">החתימה שלנו — קינמון, הל וקצף ענן</div></div><div class="menu-item-price">20 ₪</div></div>
+        <div class="menu-item"><div><div class="menu-item-name">שוקו חם</div><div class="menu-item-desc">שוקולד בלגי 70%</div></div><div class="menu-item-price">17 ₪</div></div>
+      </div>
+
+      <div class="tab-panel" id="tab-cold">
+        <div class="menu-item"><div><div class="menu-item-name">איס לאטה</div><div class="menu-item-desc">קפה קר, חלב, קרח</div></div><div class="menu-item-price">19 ₪</div></div>
+        <div class="menu-item"><div><div class="menu-item-name">קולד ברו</div><div class="menu-item-desc">חליטה קרה 18 שעות</div></div><div class="menu-item-price">18 ₪</div></div>
+        <div class="menu-item"><div><div class="menu-item-name">פראפה פינקס <span class="badge-hot">הכי נמכר</span></div><div class="menu-item-desc">קפה מוקצף, קרח כתוש, קצפת</div></div><div class="menu-item-price">22 ₪</div></div>
+        <div class="menu-item"><div><div class="menu-item-name">לימונדה תותים ונענע</div><div class="menu-item-desc">רענן, ללא קפאין</div></div><div class="menu-item-price">17 ₪</div></div>
+      </div>
+
+      <div class="tab-panel" id="tab-pastry">
+        <div class="menu-item"><div><div class="menu-item-name">קרואסון חמאה</div><div class="menu-item-desc">נאפה כל בוקר, פריך</div></div><div class="menu-item-price">14 ₪</div></div>
+        <div class="menu-item"><div><div class="menu-item-name">בורקס תרד וגבינות</div><div class="menu-item-desc">בצק עלים פריך</div></div><div class="menu-item-price">16 ₪</div></div>
+        <div class="menu-item"><div><div class="menu-item-name">עוגת גבינה ביתית</div><div class="menu-item-desc">מתכון סבתא, פירורי ביסקוויט</div></div><div class="menu-item-price">22 ₪</div></div>
+        <div class="menu-item"><div><div class="menu-item-name">קוקי שוקולד חם <span class="badge-hot">הכי נמכר</span></div><div class="menu-item-desc">מוגש חם עם נטיפי שוקולד נמסים</div></div><div class="menu-item-price">14 ₪</div></div>
+      </div>
+
+      <div class="tab-panel" id="tab-meal">
+        <div class="menu-item"><div><div class="menu-item-name">שקשוקה פינקס <span class="badge-hot">הכי נמכר</span></div><div class="menu-item-desc">עגבניות צלויות, פטה, חלה טרייה</div></div><div class="menu-item-price">42 ₪</div></div>
+        <div class="menu-item"><div><div class="menu-item-name">אבוקדו טוסט</div><div class="menu-item-desc">לחם מחמצת, ביצת עין, צ'ילי</div></div><div class="menu-item-price">38 ₪</div></div>
+        <div class="menu-item"><div><div class="menu-item-name">סלט קינואה צבעוני</div><div class="menu-item-desc">ירקות עונה, גבינת עיזים</div></div><div class="menu-item-price">44 ₪</div></div>
+        <div class="menu-item"><div><div class="menu-item-name">סנדוויץ' חביתה ופסטרמה</div><div class="menu-item-desc">לחמניה ביתית, חרדל דבש</div></div><div class="menu-item-price">36 ₪</div></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- GALLERY -->
+  <section id="gallery">
+    <div class="wrap">
+      <div class="menu-head">
+        <div class="section-tag reveal">גלריה</div>
+        <h2 class="section-title reveal delay-1">רגעים <span class="hl">מהמקום</span></h2>
+        <p class="section-lead reveal delay-2">הציצו פנימה — ככה נראה יום אצלנו.</p>
+      </div>
+      <div class="gallery-grid reveal delay-3">
+        <div class="g-item g1" data-label="הבר שלנו">☕</div>
+        <div class="g-item g2" data-label="קליית הפולים">🫘</div>
+        <div class="g-item g3" data-label="פינת הישיבה">🪴</div>
+        <div class="g-item g4" data-label="ארוחת בוקר">🍳</div>
+        <div class="g-item g5" data-label="מאפים טריים">🥐</div>
+        <div class="g-item g6" data-label="האווירה אצלנו">🎶</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- TESTIMONIALS -->
+  <section class="testi-section">
+    <div class="wrap" style="text-align:center">
+      <div class="section-tag reveal">מה אומרים עלינו</div>
+      <h2 class="section-title reveal delay-1">לא רק <span class="hl">אנחנו</span> חושבים שטעים</h2>
+      <p class="section-lead reveal delay-2" style="margin:0 auto">600+ ביקורות עם דירוג ממוצע של 4.9 כוכבים.</p>
+
+      <div class="testi-wrap reveal delay-3">
+        <div class="testi-card active">
+          <div class="testi-stars">★★★★★</div>
+          <div class="testi-quote">"הקפה הכי טוב שיש לי בסביבה. הגעתי בפעם הראשונה במקרה ועכשיו אני קבועה."</div>
+          <div class="testi-name">נועה כהן</div>
+          <div class="testi-role">לקוחה קבועה</div>
+        </div>
+        <div class="testi-card">
+          <div class="testi-stars">★★★★★</div>
+          <div class="testi-quote">"האווירה פשוט אחרת. עובד משם פעמיים בשבוע, צוות מקסים ושקשוקה מטורפת."</div>
+          <div class="testi-name">איתי לוי</div>
+          <div class="testi-role">פרילנסר</div>
+        </div>
+        <div class="testi-card">
+          <div class="testi-stars">★★★★★</div>
+          <div class="testi-quote">"ההפוך פינקס שינה לי את החיים. ברצינות. תנסו ותבינו."</div>
+          <div class="testi-name">שירה אביטל</div>
+          <div class="testi-role">חובבת קפה</div>
+        </div>
+        <div class="testi-controls">
+          <div class="testi-arrow" onclick="changeTesti(1)">→</div>
+          <div class="testi-arrow" onclick="changeTesti(-1)">←</div>
+        </div>
+        <div class="testi-dots" id="testiDots"></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- LOCATION -->
+  <section id="location">
+    <div class="wrap loc-grid">
+      <div>
+        <div class="map-box reveal"><div class="map-pin">📍</div></div>
+      </div>
+      <div>
+        <div class="section-tag reveal">מיקום ושעות</div>
+        <h2 class="section-title reveal delay-1">בואו <span class="hl">תרגישו בבית</span></h2>
+        <div class="hours-list reveal delay-2" id="hoursList"></div>
+        <div class="contact-mini reveal delay-3">
+          <div class="contact-chip">📍 רחוב דיזנגוף 99, תל אביב</div>
+          <div class="contact-chip">📞 03-1234567</div>
+          <div class="contact-chip">📷 ‎@cafepinkas</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- CLUB / NEWSLETTER -->
+  <section>
+    <div class="club-section reveal">
+      <div class="wrap">
+        <h2>הצטרפו למועדון פינקס</h2>
+        <p>קפה חינם ביום הולדת, עדכונים על מאפים חדשים, והטבות בלעדיות. בלי ספאם, מבטיחים.</p>
+        <form class="club-form" id="clubForm">
+          <input type="email" placeholder="האימייל שלך" required>
+          <button type="submit">הצטרפו ☕</button>
+        </form>
+        <div class="club-success" id="clubSuccess">🎉 ברוכים הבאים למועדון! מחכה לכם קפה ראשון על הבית.</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- FOOTER -->
+  <footer>
+    <div class="wrap">
+      <div class="logo" style="justify-content:center"><div class="logo-mark">☕</div>קפה <span>פינקס</span></div>
+      <div class="footer-social">
+        <a href="#" aria-label="אינסטגרם">📷</a>
+        <a href="#" aria-label="פייסבוק">📘</a>
+        <a href="#" aria-label="וואטסאפ">💬</a>
+      </div>
+      <div class="footer-fine">© קפה פינקס · נבנה באהבה ובקפאין ☕</div>
+    </div>
+  </footer>
+
+  <!-- FLOATING CTA -->
+  <a href="https://wa.me/972000000000" target="_blank" rel="noopener" class="float-cta">💬 הזמינו עכשיו</a>
+
+<script>
+  // nav scroll state
+  const nav = document.getElementById('nav');
+  window.addEventListener('scroll', () => {
+    nav.classList.toggle('scrolled', window.scrollY > 30);
+  });
+
+  // mobile menu
+  const burger = document.getElementById('burger');
+  const mobileMenu = document.getElementById('mobileMenu');
+  function toggleMenu() {
+    burger.classList.toggle('open');
+    mobileMenu.classList.toggle('open');
+  }
+
+  // reveal on scroll
+  const revealEls = document.querySelectorAll('.reveal');
+  const io = new IntersectionObserver((entries) => {
+    entries.forEach(e => { if (e.isIntersecting) e.target.classList.add('in-view'); });
+  }, { threshold: 0.15 });
+  revealEls.forEach(el => io.observe(el));
+
+  // animated counters
+  const counters = document.querySelectorAll('.stat-num');
+  const counterIO = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      if (!entry.isIntersecting) return;
+      const el = entry.target;
+      const target = parseInt(el.dataset.count, 10);
+      const duration = 1400;
+      const start = performance.now();
+      function tick(now) {
+        const p = Math.min((now - start) / duration, 1);
+        el.textContent = Math.floor(p * target);
+        if (p < 1) requestAnimationFrame(tick);
+        else el.textContent = target;
+      }
+      requestAnimationFrame(tick);
+      counterIO.unobserve(el);
+    });
+  }, { threshold: 0.5 });
+  counters.forEach(c => counterIO.observe(c));
+
+  // menu tabs
+  function switchTab(tab, btn) {
+    document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+    document.querySelectorAll('.tab-panel').forEach(p => p.classList.remove('active'));
+    btn.classList.add('active');
+    document.getElementById('tab-' + tab).classList.add('active');
+  }
+
+  // testimonial slider
+  const testiCards = document.querySelectorAll('.testi-card');
+  const dotsWrap = document.getElementById('testiDots');
+  let testiIndex = 0;
+  testiCards.forEach((_, i) => {
+    const dot = document.createElement('div');
+    dot.className = 'testi-dot' + (i === 0 ? ' active' : '');
+    dot.onclick = () => setTesti(i);
+    dotsWrap.appendChild(dot);
+  });
+  function setTesti(i) {
+    testiCards[testiIndex].classList.remove('active');
+    dotsWrap.children[testiIndex].classList.remove('active');
+    testiIndex = (i + testiCards.length) % testiCards.length;
+    testiCards[testiIndex].classList.add('active');
+    dotsWrap.children[testiIndex].classList.add('active');
+  }
+  function changeTesti(dir) { setTesti(testiIndex + dir); }
+  setInterval(() => changeTesti(1), 6000);
+
+  // hours + open/closed
+  const hours = [
+    { day: 'ראשון', open: 7, close: 22 },
+    { day: 'שני', open: 7, close: 22 },
+    { day: 'שלישי', open: 7, close: 22 },
+    { day: 'רביעי', open: 7, close: 22 },
+    { day: 'חמישי', open: 7, close: 22 },
+    { day: 'שישי', open: 7, close: 15 },
+    { day: 'שבת', open: 9, close: 22 }
+  ];
+  const now = new Date();
+  const todayIdx = now.getDay();
+  const currentHour = now.getHours() + now.getMinutes() / 60;
+  const hoursList = document.getElementById('hoursList');
+  hours.forEach((h, i) => {
+    const row = document.createElement('div');
+    row.className = 'hours-row' + (i === todayIdx ? ' today' : '');
+    const isOpenNow = i === todayIdx && currentHour >= h.open && currentHour < h.close;
+    row.innerHTML = `<span>${h.day}</span><span>${i === todayIdx ? `<span class="open-pill ${isOpenNow ? '' : 'closed-pill'}">${isOpenNow ? 'פתוח עכשיו' : 'סגור עכשיו'}</span>` : ''}${h.open}:00–${h.close}:00</span>`;
+    hoursList.appendChild(row);
+  });
+
+  // newsletter fake submit
+  document.getElementById('clubForm').addEventListener('submit', function(e) {
+    e.preventDefault();
+    document.getElementById('clubSuccess').classList.add('show');
+    this.reset();
+  });
+</script>
+</body>
+</html>
