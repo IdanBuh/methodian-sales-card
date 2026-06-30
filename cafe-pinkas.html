@@ -4,7 +4,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>קפה פינקס — לא רק קפה, אווירה</title>
-<meta name="description" content="קפה פינקס — קלייה טרייה, מאפים ביתיים ואווירה צעירה במרכז העיר. בואו לטעום.">
+<meta name="description" content="קפה פינקס — רחוב פינקס 24, קריית אונו. קלייה טרייה, מאפים ביתיים ואווירה צעירה. בואו לטעום.">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Rubik:wght@400;500;600;700;800;900&family=Caveat:wght@600;700&display=swap" rel="stylesheet">
 <style>
@@ -12,15 +12,18 @@
     --cream: #FFF8EC;
     --cream2: #FFF1DA;
     --paper: #FFFDF8;
+    --ink: #2E1C12;
     --brown: #2E1C12;
     --brown2: #6B4226;
     --terracotta: #E8643A;
     --terracotta-dark: #C84F2A;
     --mustard: #F2B705;
     --mint: #1FB6A4;
-    --pink: #FF8FA3;
-    --line: rgba(46,28,18,0.1);
+    --pop: #FF3D5A;
+    --line: rgba(46,28,18,0.12);
     --shadow: 0 10px 30px rgba(46,28,18,0.08);
+    --pop-shadow: 5px 5px 0 var(--ink);
+    --pop-shadow-sm: 3px 3px 0 var(--ink);
   }
 
   * { margin: 0; padding: 0; box-sizing: border-box; }
@@ -33,6 +36,8 @@
     font-family: 'Rubik', sans-serif;
     direction: rtl;
     overflow-x: hidden;
+    background-image: radial-gradient(rgba(46,28,18,0.06) 1.4px, transparent 1.4px);
+    background-size: 22px 22px;
   }
 
   img, svg { display: block; max-width: 100%; }
@@ -47,6 +52,13 @@
   .reveal.delay-2.in-view { transition-delay: 0.2s; }
   .reveal.delay-3.in-view { transition-delay: 0.3s; }
 
+  /* ===== LOGO (custom SVG mark) ===== */
+  .logo-mark { flex-shrink: 0; }
+  .logo-mark .ring { fill: var(--terracotta); stroke: var(--ink); stroke-width: 3; }
+  .logo-mark .dash { fill: none; stroke: var(--cream); stroke-width: 1.6; stroke-dasharray: 3 5; }
+  .logo-mark .glyph { fill: var(--cream); }
+  .logo-mark .glyph-line { fill: none; stroke: var(--cream); stroke-width: 4; stroke-linecap: round; }
+
   /* ===== NAV ===== */
   .nav {
     position: fixed;
@@ -55,51 +67,44 @@
     display: flex;
     align-items: center;
     justify-content: space-between;
-    padding: 18px 24px;
+    padding: 16px 24px;
     transition: all 0.3s ease;
   }
 
   .nav.scrolled {
-    background: rgba(255,248,236,0.92);
+    background: rgba(255,248,236,0.94);
     backdrop-filter: blur(10px);
-    box-shadow: var(--shadow);
-    padding: 12px 24px;
+    border-bottom: 2px solid var(--ink);
+    padding: 10px 24px;
   }
 
   .logo { display: flex; align-items: center; gap: 10px; font-weight: 900; font-size: 20px; }
-  .logo-mark {
-    width: 38px; height: 38px;
-    border-radius: 50%;
-    background: var(--terracotta);
-    display: flex; align-items: center; justify-content: center;
-    font-size: 18px;
-    box-shadow: 0 4px 0 var(--terracotta-dark);
-  }
   .logo span { color: var(--terracotta); }
 
-  .nav-links { display: flex; align-items: center; gap: 30px; font-weight: 600; font-size: 14px; }
+  .nav-links { display: flex; align-items: center; gap: 30px; font-weight: 700; font-size: 14px; }
   .nav-links a { position: relative; padding: 4px 0; }
   .nav-links a::after {
-    content: ''; position: absolute; bottom: -2px; right: 0; left: 0; height: 2px;
-    background: var(--terracotta); transform: scaleX(0); transition: transform 0.25s ease;
+    content: ''; position: absolute; bottom: -2px; right: 0; left: 0; height: 3px;
+    background: var(--pop); transform: scaleX(0); transition: transform 0.25s ease;
   }
   .nav-links a:hover::after { transform: scaleX(1); }
 
   .nav-cta {
-    background: var(--brown);
-    color: var(--cream);
-    font-weight: 700;
+    background: var(--mustard);
+    color: var(--ink);
+    font-weight: 800;
     font-size: 13px;
     padding: 10px 20px;
+    border: 2px solid var(--ink);
     border-radius: 30px;
-    box-shadow: 0 4px 0 #18100a;
+    box-shadow: var(--pop-shadow-sm);
     transition: transform 0.15s ease, box-shadow 0.15s ease;
   }
-  .nav-cta:hover { transform: translateY(-2px); box-shadow: 0 6px 0 #18100a; }
-  .nav-cta:active { transform: translateY(2px); box-shadow: 0 2px 0 #18100a; }
+  .nav-cta:hover { transform: translate(-2px,-2px); box-shadow: 5px 5px 0 var(--ink); }
+  .nav-cta:active { transform: translate(1px,1px); box-shadow: 1px 1px 0 var(--ink); }
 
   .burger { display: none; flex-direction: column; gap: 5px; cursor: pointer; z-index: 110; }
-  .burger span { width: 24px; height: 2.5px; background: var(--brown); border-radius: 2px; transition: 0.3s; }
+  .burger span { width: 24px; height: 3px; background: var(--brown); border-radius: 2px; transition: 0.3s; }
   .burger.open span:nth-child(1) { transform: translateY(7.5px) rotate(45deg); }
   .burger.open span:nth-child(2) { opacity: 0; }
   .burger.open span:nth-child(3) { transform: translateY(-7.5px) rotate(-45deg); }
@@ -116,28 +121,17 @@
   /* ===== HERO ===== */
   .hero {
     position: relative;
-    min-height: 100vh;
+    min-height: 108vh;
     display: flex;
     align-items: center;
     padding-top: 80px;
     overflow: hidden;
   }
 
-  .blob {
-    position: absolute;
-    border-radius: 50%;
-    filter: blur(2px);
-    opacity: 0.5;
-    animation: float 9s ease-in-out infinite;
-  }
-  .blob.b1 { width: 220px; height: 220px; background: var(--mustard); top: 8%; left: 4%; opacity: 0.35; }
-  .blob.b2 { width: 160px; height: 160px; background: var(--mint); bottom: 14%; left: 12%; opacity: 0.3; animation-delay: -3s; }
-  .blob.b3 { width: 120px; height: 120px; background: var(--pink); top: 18%; right: 6%; opacity: 0.3; animation-delay: -5s; }
-
-  @keyframes float {
-    0%, 100% { transform: translateY(0) translateX(0); }
-    50% { transform: translateY(-22px) translateX(10px); }
-  }
+  .blob { position: absolute; border-radius: 50%; opacity: 0.45; will-change: transform; }
+  .blob.b1 { width: 220px; height: 220px; background: var(--mustard); top: 8%; left: 4%; }
+  .blob.b2 { width: 160px; height: 160px; background: var(--mint); bottom: 14%; left: 12%; opacity: 0.3; }
+  .blob.b3 { width: 120px; height: 120px; background: var(--pop); top: 18%; right: 6%; opacity: 0.22; }
 
   .hero-grid {
     position: relative; z-index: 2;
@@ -151,31 +145,36 @@
   .eyebrow {
     display: inline-flex; align-items: center; gap: 8px;
     background: var(--paper);
-    border: 1px solid var(--line);
+    border: 2px solid var(--ink);
     border-radius: 30px;
     padding: 7px 16px;
     font-size: 12px;
-    font-weight: 700;
+    font-weight: 800;
     color: var(--terracotta-dark);
-    box-shadow: var(--shadow);
+    box-shadow: var(--pop-shadow-sm);
     margin-bottom: 22px;
   }
 
   .hero h1 {
-    font-size: 58px;
+    font-size: 60px;
     font-weight: 900;
-    line-height: 1.08;
+    line-height: 1.06;
     letter-spacing: -0.01em;
     margin-bottom: 18px;
   }
 
   .hero h1 .script {
     font-family: 'Caveat', cursive;
-    color: var(--terracotta);
+    color: var(--pop);
     font-size: 1.15em;
     font-weight: 700;
     display: inline-block;
     transform: rotate(-2deg);
+  }
+
+  .hero h1 .stroke {
+    -webkit-text-stroke: 2px var(--ink);
+    color: var(--mustard);
   }
 
   .hero p.lead {
@@ -184,6 +183,7 @@
     line-height: 1.7;
     max-width: 480px;
     margin-bottom: 30px;
+    font-weight: 500;
   }
 
   .hero-actions { display: flex; gap: 14px; flex-wrap: wrap; margin-bottom: 34px; }
@@ -195,7 +195,7 @@
     font-weight: 800;
     font-size: 15px;
     cursor: pointer;
-    border: none;
+    border: 2px solid var(--ink);
     font-family: 'Rubik', sans-serif;
     transition: transform 0.15s ease, box-shadow 0.15s ease;
   }
@@ -203,92 +203,144 @@
   .btn-primary {
     background: var(--terracotta);
     color: white;
-    box-shadow: 0 5px 0 var(--terracotta-dark);
+    box-shadow: var(--pop-shadow);
   }
-  .btn-primary:hover { transform: translateY(-2px); box-shadow: 0 7px 0 var(--terracotta-dark); }
-  .btn-primary:active { transform: translateY(3px); box-shadow: 0 2px 0 var(--terracotta-dark); }
+  .btn-primary:hover { transform: translate(-2px,-2px); box-shadow: 7px 7px 0 var(--ink); }
+  .btn-primary:active { transform: translate(2px,2px); box-shadow: 2px 2px 0 var(--ink); }
 
   .btn-outline {
-    background: transparent;
-    color: var(--brown);
-    border: 2px solid var(--brown);
-  }
-  .btn-outline:hover { background: var(--brown); color: var(--cream); }
-
-  .hero-trust { display: flex; align-items: center; gap: 14px; font-size: 13px; color: var(--brown2); font-weight: 600; }
-  .stars { color: var(--mustard); letter-spacing: 1px; }
-
-  /* coffee cup illustration */
-  .cup-stage { position: relative; display: flex; justify-content: center; align-items: flex-end; height: 420px; }
-  .saucer {
-    position: absolute; bottom: 30px;
-    width: 260px; height: 26px;
     background: var(--paper);
+    color: var(--brown);
+    box-shadow: var(--pop-shadow);
+  }
+  .btn-outline:hover { background: var(--cream2); transform: translate(-2px,-2px); box-shadow: 7px 7px 0 var(--ink); }
+  .btn-outline:active { transform: translate(2px,2px); box-shadow: 2px 2px 0 var(--ink); }
+
+  .hero-trust { display: flex; align-items: center; gap: 14px; font-size: 13px; color: var(--brown2); font-weight: 700; }
+  .stars { color: var(--mustard); letter-spacing: 1px; -webkit-text-stroke: 0.6px var(--ink); }
+
+  /* ===== scroll-driven cup + croissant ===== */
+  .cup-stage {
+    position: relative;
+    height: 460px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+
+  .scene { position: relative; width: 280px; height: 360px; }
+
+  .sticker {
+    position: absolute; top: 6px; left: -10px;
+    background: var(--pop);
+    color: white;
+    font-weight: 900;
+    font-size: 12px;
+    padding: 10px 14px;
     border-radius: 50%;
-    box-shadow: var(--shadow);
+    border: 2px solid var(--ink);
+    box-shadow: var(--pop-shadow-sm);
+    transform: rotate(-14deg);
+    width: 86px; height: 86px;
+    display: flex; align-items: center; justify-content: center;
+    text-align: center;
+    line-height: 1.2;
+    z-index: 4;
+    animation: wiggle 4s ease-in-out infinite;
+  }
+  @keyframes wiggle { 0%,100% { transform: rotate(-14deg); } 50% { transform: rotate(-6deg); } }
+
+  .croissant-layer {
+    position: absolute; top: 10px; right: 10px;
+    font-size: 64px;
+    z-index: 3;
+    filter: drop-shadow(3px 4px 0 rgba(46,28,18,0.15));
+    will-change: transform;
+  }
+
+  .bean { position: absolute; font-size: 24px; z-index: 1; will-change: transform; }
+  .bean.b1 { top: 30px; left: 4px; }
+  .bean.b2 { bottom: 110px; right: 4px; }
+  .bean.b3 { top: 120px; right: 50px; font-size: 18px; }
+
+  .saucer {
+    position: absolute; bottom: 60px; left: 50%; transform: translateX(-50%);
+    width: 240px; height: 24px;
+    background: var(--paper);
+    border: 2.5px solid var(--ink);
+    border-radius: 50%;
+    box-shadow: var(--pop-shadow);
+    z-index: 2;
+  }
+  .cup-group {
+    position: absolute; bottom: 84px; left: 50%;
+    transform-origin: 50% 100%;
+    z-index: 3;
+    will-change: transform;
+    margin-left: -90px;
   }
   .cup {
     position: relative;
-    width: 200px; height: 190px;
+    width: 180px; height: 170px;
     background: linear-gradient(160deg, #fff, var(--cream2));
-    border-radius: 14px 14px 70px 70px / 14px 14px 110px 110px;
-    box-shadow: var(--shadow), inset 0 -10px 0 rgba(46,28,18,0.04);
-    z-index: 2;
+    border: 2.5px solid var(--ink);
+    border-radius: 14px 14px 60px 60px / 14px 14px 100px 100px;
+    box-shadow: var(--pop-shadow);
   }
   .cup::before {
     content: '';
-    position: absolute; top: 14px; right: 14px; left: 14px;
-    height: 70px;
-    background: radial-gradient(ellipse at center, #6F4423, #3A2317);
+    position: absolute; top: 12px; right: 12px; left: 12px;
+    height: 62px;
+    background: radial-gradient(ellipse at center, #8a5a33, #3A2317);
+    border: 1.5px solid var(--ink);
     border-radius: 50%;
   }
   .handle {
-    position: absolute; left: -38px; top: 46px;
-    width: 56px; height: 70px;
-    border: 14px solid var(--paper);
+    position: absolute; left: -36px; top: 38px;
+    width: 50px; height: 64px;
+    border: 13px solid var(--paper);
     border-left-color: transparent;
     border-radius: 50%;
-    box-shadow: var(--shadow);
+    box-shadow: 3px 0 0 var(--ink);
   }
-  .steam { position: absolute; top: -50px; right: 70px; display: flex; gap: 18px; z-index: 1; }
+  .steam { position: absolute; top: -46px; right: 60px; display: flex; gap: 16px; z-index: 1; }
   .steam i {
-    display: block; width: 8px; height: 40px;
-    background: linear-gradient(to top, rgba(107,66,38,0), rgba(107,66,38,0.35));
+    display: block; width: 7px; height: 36px;
+    background: linear-gradient(to top, rgba(107,66,38,0), rgba(107,66,38,0.4));
     border-radius: 10px;
     animation: rise 2.6s ease-in-out infinite;
   }
-  .steam i:nth-child(2) { animation-delay: 0.5s; height: 52px; }
+  .steam i:nth-child(2) { animation-delay: 0.5s; height: 48px; }
   .steam i:nth-child(3) { animation-delay: 1s; }
 
   @keyframes rise {
     0% { transform: translateY(0) scaleY(1); opacity: 0; }
     25% { opacity: 1; }
-    100% { transform: translateY(-40px) scaleY(1.3); opacity: 0; }
+    100% { transform: translateY(-36px) scaleY(1.3); opacity: 0; }
   }
 
-  .bean { position: absolute; font-size: 26px; animation: spin 6s linear infinite; }
-  .bean.b1 { top: 10px; left: 0; animation-duration: 8s; }
-  .bean.b2 { bottom: 60px; right: -10px; animation-duration: 7s; animation-direction: reverse; }
-  @keyframes spin { from { transform: rotate(0deg); } to { transform: rotate(360deg); } }
+  .scroll-hint { text-align: center; font-size: 12px; font-weight: 700; color: var(--brown2); margin-top: 10px; opacity: 0.7; }
 
   @media (max-width: 880px) {
     .hero-grid { grid-template-columns: 1fr; text-align: center; }
-    .hero h1 { font-size: 40px; }
+    .hero h1 { font-size: 38px; }
     .hero p.lead { margin: 0 auto 28px; }
     .hero-actions, .hero-trust { justify-content: center; }
     .nav-links, .nav-cta { display: none; }
     .burger { display: flex; }
-    .cup-stage { height: 300px; margin-top: 20px; }
-    .cup { width: 160px; height: 150px; }
+    .cup-stage { height: 320px; margin-top: 10px; }
+    .scene { transform: scale(0.78); }
   }
 
   /* ===== MARQUEE ===== */
   .marquee {
-    background: var(--brown);
+    background: var(--ink);
     color: var(--cream);
     padding: 14px 0;
     overflow: hidden;
     white-space: nowrap;
+    border-top: 3px solid var(--ink);
+    border-bottom: 3px solid var(--ink);
   }
   .marquee-track { display: inline-flex; gap: 40px; animation: scroll-x 22s linear infinite; }
   .marquee span { font-weight: 800; font-size: 14px; letter-spacing: 0.03em; display: inline-flex; align-items: center; gap: 10px; }
@@ -301,16 +353,32 @@
     display: inline-block;
     font-size: 12px;
     font-weight: 800;
-    letter-spacing: 0.1em;
+    letter-spacing: 0.08em;
     color: var(--terracotta-dark);
-    background: rgba(232,100,58,0.1);
+    background: var(--paper);
+    border: 2px solid var(--ink);
     padding: 6px 14px;
     border-radius: 20px;
     margin-bottom: 14px;
+    box-shadow: var(--pop-shadow-sm);
   }
   .section-title { font-size: 38px; font-weight: 900; line-height: 1.2; margin-bottom: 16px; }
   .section-title .hl { color: var(--terracotta); }
-  .section-lead { font-size: 16px; color: var(--brown2); max-width: 560px; line-height: 1.7; }
+  .section-lead { font-size: 16px; color: var(--brown2); max-width: 560px; line-height: 1.7; font-weight: 500; }
+
+  /* ===== media-with-fallback (real photo slot) ===== */
+  .media {
+    position: relative;
+    overflow: hidden;
+    border: 2.5px solid var(--ink);
+    box-shadow: var(--pop-shadow);
+  }
+  .media img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; }
+  .media .fallback {
+    position: absolute; inset: 0;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 1em;
+  }
 
   /* ===== ABOUT ===== */
   .about-grid { display: grid; grid-template-columns: 0.9fr 1.1fr; gap: 60px; align-items: center; }
@@ -318,30 +386,26 @@
     position: relative;
     height: 380px;
     border-radius: 28px;
+  }
+  .about-art .fallback {
     background: linear-gradient(135deg, var(--mustard), var(--terracotta));
-    box-shadow: var(--shadow);
-    display: flex; align-items: center; justify-content: center;
     font-size: 90px;
   }
-  .about-art::after {
-    content: '';
-    position: absolute; inset: -14px;
-    border: 2px dashed rgba(46,28,18,0.18);
-    border-radius: 36px;
-    z-index: -1;
-  }
+  .about-art { border-radius: 28px; }
+  .about-art.media { border-radius: 28px; }
+  .about-art .media-fallback-text { display: none; }
 
   .stat-row { display: grid; grid-template-columns: repeat(3, 1fr); gap: 18px; margin-top: 36px; }
   .stat-card {
     background: var(--paper);
-    border: 1px solid var(--line);
+    border: 2.5px solid var(--ink);
     border-radius: 16px;
     padding: 18px;
     text-align: center;
-    box-shadow: var(--shadow);
+    box-shadow: var(--pop-shadow-sm);
   }
   .stat-num { font-size: 30px; font-weight: 900; color: var(--terracotta); }
-  .stat-label { font-size: 12px; color: var(--brown2); font-weight: 600; margin-top: 4px; }
+  .stat-label { font-size: 12px; color: var(--brown2); font-weight: 700; margin-top: 4px; }
 
   @media (max-width: 880px) {
     .about-grid { grid-template-columns: 1fr; }
@@ -356,7 +420,7 @@
   .tabs { display: flex; justify-content: center; gap: 10px; flex-wrap: wrap; margin-bottom: 40px; }
   .tab-btn {
     background: var(--paper);
-    border: 2px solid var(--line);
+    border: 2px solid var(--ink);
     color: var(--brown2);
     font-family: 'Rubik', sans-serif;
     font-weight: 700;
@@ -365,9 +429,10 @@
     border-radius: 30px;
     cursor: pointer;
     transition: all 0.2s ease;
+    box-shadow: var(--pop-shadow-sm);
   }
-  .tab-btn:hover { border-color: var(--terracotta); }
-  .tab-btn.active { background: var(--terracotta); border-color: var(--terracotta); color: white; }
+  .tab-btn:hover { transform: translate(-1px,-1px); }
+  .tab-btn.active { background: var(--terracotta); border-color: var(--ink); color: white; }
 
   .tab-panel { display: none; }
   .tab-panel.active { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
@@ -375,23 +440,25 @@
 
   .menu-item {
     background: var(--paper);
-    border: 1px solid var(--line);
+    border: 2.5px solid var(--ink);
     border-radius: 16px;
     padding: 18px 20px;
     display: flex;
     justify-content: space-between;
     align-items: flex-start;
     gap: 14px;
+    box-shadow: var(--pop-shadow-sm);
     transition: transform 0.2s ease, box-shadow 0.2s ease;
   }
-  .menu-item:hover { transform: translateY(-4px); box-shadow: var(--shadow); }
+  .menu-item:hover { transform: translate(-3px,-3px); box-shadow: 6px 6px 0 var(--ink); }
 
   .menu-item-name { font-weight: 800; font-size: 16px; display: flex; align-items: center; gap: 8px; }
   .menu-item-desc { font-size: 13px; color: var(--brown2); margin-top: 6px; line-height: 1.5; }
   .menu-item-price { font-weight: 900; font-size: 16px; color: var(--terracotta-dark); white-space: nowrap; }
   .badge-hot {
-    background: var(--mustard); color: var(--brown);
+    background: var(--mustard); color: var(--ink);
     font-size: 9px; font-weight: 900; padding: 2px 7px; border-radius: 10px;
+    border: 1.5px solid var(--ink);
   }
 
   /* ===== GALLERY ===== */
@@ -399,7 +466,7 @@
     display: grid;
     grid-template-columns: repeat(4, 1fr);
     grid-auto-rows: 130px;
-    gap: 12px;
+    gap: 14px;
   }
   .gallery-grid .g-item:nth-child(1) { grid-row: span 2; grid-column: span 2; }
   .gallery-grid .g-item:nth-child(4) { grid-row: span 2; }
@@ -412,25 +479,28 @@
     cursor: pointer;
     position: relative;
     overflow: hidden;
-    transition: transform 0.3s ease;
+    transition: transform 0.25s ease;
+    border: 2.5px solid var(--ink);
+    box-shadow: var(--pop-shadow-sm);
   }
-  .g-item:hover { transform: scale(0.97); }
+  .g-item:hover { transform: translate(-3px,-3px); box-shadow: 6px 6px 0 var(--ink); }
   .g-item::after {
     content: attr(data-label);
     position: absolute; inset: auto 0 0 0;
-    background: linear-gradient(to top, rgba(0,0,0,0.55), transparent);
+    background: linear-gradient(to top, rgba(0,0,0,0.6), transparent);
     color: white; font-size: 12px; font-weight: 700;
     padding: 24px 14px 10px;
     opacity: 0; transition: opacity 0.25s ease;
+    z-index: 2;
   }
   .g-item:hover::after { opacity: 1; }
 
-  .g1 { background: linear-gradient(135deg, #E8643A, #F2B705); }
-  .g2 { background: linear-gradient(135deg, #6B4226, #2E1C12); }
-  .g3 { background: linear-gradient(135deg, #1FB6A4, #0d8a7c); }
-  .g4 { background: linear-gradient(135deg, #FF8FA3, #E8643A); }
-  .g5 { background: linear-gradient(135deg, #F2B705, #E8643A); }
-  .g6 { background: linear-gradient(135deg, #2E1C12, #6B4226); }
+  .g1 .fallback { background: linear-gradient(135deg, #E8643A, #F2B705); }
+  .g2 .fallback { background: linear-gradient(135deg, #6B4226, #2E1C12); }
+  .g3 .fallback { background: linear-gradient(135deg, #1FB6A4, #0d8a7c); }
+  .g4 .fallback { background: linear-gradient(135deg, #FF8FA3, #E8643A); }
+  .g5 .fallback { background: linear-gradient(135deg, #F2B705, #E8643A); }
+  .g6 .fallback { background: linear-gradient(135deg, #2E1C12, #6B4226); }
 
   @media (max-width: 700px) {
     .gallery-grid { grid-template-columns: repeat(2, 1fr); }
@@ -439,15 +509,15 @@
   }
 
   /* ===== TESTIMONIALS ===== */
-  .testi-section { background: var(--brown); color: var(--cream); }
-  .testi-section .section-tag { background: rgba(255,255,255,0.1); color: var(--mustard); }
+  .testi-section { background: var(--ink); color: var(--cream); }
+  .testi-section .section-tag { background: rgba(255,255,255,0.08); color: var(--mustard); border-color: rgba(255,255,255,0.3); box-shadow: none; }
   .testi-section .section-title { color: var(--cream); }
   .testi-section .section-lead { color: rgba(255,248,236,0.65); }
 
   .testi-wrap { position: relative; max-width: 640px; margin: 50px auto 0; }
   .testi-card {
     background: rgba(255,255,255,0.06);
-    border: 1px solid rgba(255,255,255,0.1);
+    border: 2px solid rgba(255,255,255,0.18);
     border-radius: 22px;
     padding: 36px 40px;
     text-align: center;
@@ -465,7 +535,7 @@
   .testi-arrow {
     width: 42px; height: 42px; border-radius: 50%;
     background: rgba(255,255,255,0.08);
-    border: 1px solid rgba(255,255,255,0.15);
+    border: 2px solid rgba(255,255,255,0.2);
     color: var(--cream);
     cursor: pointer; font-size: 16px;
     display: flex; align-items: center; justify-content: center;
@@ -482,12 +552,12 @@
   .map-box {
     height: 320px; border-radius: 24px;
     background:
-      repeating-linear-gradient(45deg, rgba(46,28,18,0.04) 0 2px, transparent 2px 14px),
+      repeating-linear-gradient(45deg, rgba(46,28,18,0.05) 0 2px, transparent 2px 14px),
       linear-gradient(135deg, var(--cream2), var(--paper));
-    border: 1px solid var(--line);
+    border: 2.5px solid var(--ink);
     display: flex; align-items: center; justify-content: center;
     position: relative;
-    box-shadow: var(--shadow);
+    box-shadow: var(--pop-shadow);
   }
   .map-pin { font-size: 50px; animation: bounce 1.8s ease-in-out infinite; }
   @keyframes bounce { 0%,100% { transform: translateY(0); } 50% { transform: translateY(-12px); } }
@@ -498,49 +568,51 @@
     padding: 11px 16px;
     border-radius: 10px;
     font-size: 14px;
-    font-weight: 600;
+    font-weight: 700;
     color: var(--brown2);
   }
-  .hours-row.today { background: rgba(232,100,58,0.1); color: var(--brown); font-weight: 800; }
+  .hours-row.today { background: rgba(232,100,58,0.12); color: var(--brown); border: 2px solid var(--ink); }
   .hours-row .open-pill {
     font-size: 11px; font-weight: 900; padding: 3px 10px; border-radius: 20px;
-    background: var(--mint); color: white; margin-right: 8px;
+    background: var(--mint); color: white; margin-right: 8px; border: 1.5px solid var(--ink);
   }
   .hours-row .closed-pill { background: #999; }
 
   .contact-mini { display: flex; gap: 16px; flex-wrap: wrap; margin-top: 10px; }
   .contact-chip {
-    background: var(--paper); border: 1px solid var(--line); border-radius: 14px;
+    background: var(--paper); border: 2px solid var(--ink); border-radius: 14px;
     padding: 12px 16px; font-size: 13px; font-weight: 700; display: flex; gap: 8px; align-items: center;
-    box-shadow: var(--shadow);
+    box-shadow: var(--pop-shadow-sm);
   }
 
   /* ===== NEWSLETTER ===== */
   .club-section {
     background: linear-gradient(135deg, var(--terracotta), var(--mustard));
-    color: var(--brown);
+    color: var(--ink);
     border-radius: 32px;
+    border: 3px solid var(--ink);
+    box-shadow: var(--pop-shadow);
     margin: 0 24px;
     padding: 60px 40px;
     text-align: center;
   }
   .club-section .wrap { max-width: 560px; }
   .club-section h2 { font-size: 32px; font-weight: 900; margin-bottom: 12px; }
-  .club-section p { font-size: 15px; margin-bottom: 26px; opacity: 0.85; }
+  .club-section p { font-size: 15px; margin-bottom: 26px; opacity: 0.85; font-weight: 600; }
 
   .club-form { display: flex; gap: 10px; max-width: 420px; margin: 0 auto; }
   .club-form input {
     flex: 1;
     padding: 14px 18px;
     border-radius: 30px;
-    border: none;
+    border: 2px solid var(--ink);
     font-family: 'Rubik', sans-serif;
     font-size: 14px;
   }
   .club-form input:focus { outline: 3px solid rgba(46,28,18,0.25); }
   .club-form button {
-    background: var(--brown); color: var(--cream);
-    border: none; border-radius: 30px;
+    background: var(--ink); color: var(--cream);
+    border: 2px solid var(--ink); border-radius: 30px;
     padding: 14px 24px; font-weight: 800; font-size: 14px;
     cursor: pointer; font-family: 'Rubik', sans-serif;
     white-space: nowrap;
@@ -552,10 +624,11 @@
 
   /* ===== FOOTER ===== */
   footer { padding: 60px 0 30px; text-align: center; }
+  .footer-logo { display: flex; justify-content: center; align-items: center; gap: 10px; font-weight: 900; font-size: 20px; }
   .footer-social { display: flex; justify-content: center; gap: 14px; margin: 20px 0; }
   .footer-social a {
     width: 42px; height: 42px; border-radius: 50%;
-    background: var(--paper); border: 1px solid var(--line);
+    background: var(--paper); border: 2px solid var(--ink);
     display: flex; align-items: center; justify-content: center;
     font-size: 18px; transition: all 0.2s ease;
   }
@@ -567,15 +640,15 @@
     position: fixed; bottom: 24px; left: 24px; z-index: 90;
     background: var(--mint);
     color: white;
+    border: 2.5px solid var(--ink);
     border-radius: 30px;
     padding: 14px 20px;
     font-weight: 800;
     font-size: 14px;
-    box-shadow: 0 8px 24px rgba(31,182,164,0.4);
+    box-shadow: var(--pop-shadow);
     display: flex; align-items: center; gap: 8px;
-    animation: pulse 2.5s ease-in-out infinite;
   }
-  @keyframes pulse { 0%,100% { box-shadow: 0 8px 24px rgba(31,182,164,0.4); } 50% { box-shadow: 0 8px 30px rgba(31,182,164,0.65); } }
+  .float-cta:hover { transform: translate(-2px,-2px); box-shadow: 7px 7px 0 var(--ink); }
 
   @media (max-width: 880px) {
     .about-grid, .loc-grid { grid-template-columns: 1fr; }
@@ -588,7 +661,17 @@
 
   <!-- NAV -->
   <nav class="nav" id="nav">
-    <div class="logo"><div class="logo-mark">☕</div>קפה <span>פינקס</span></div>
+    <div class="logo">
+      <svg class="logo-mark" viewBox="0 0 100 100" width="40" height="40">
+        <circle class="ring" cx="50" cy="50" r="46"/>
+        <circle class="dash" cx="50" cy="50" r="37"/>
+        <path class="glyph" d="M30 46 h32 v16 a16 16 0 0 1 -16 16 a16 16 0 0 1 -16 -16 z"/>
+        <path class="glyph-line" d="M62 50 q13 0 13 10 q0 10 -13 8"/>
+        <path class="glyph-line" d="M37 40 q-2 -6 2 -10"/>
+        <path class="glyph-line" d="M46 40 q-2 -6 2 -10"/>
+      </svg>
+      קפה <span>פינקס</span>
+    </div>
     <div class="nav-links">
       <a href="#about">הסיפור שלנו</a>
       <a href="#menu">התפריט</a>
@@ -607,33 +690,41 @@
   </div>
 
   <!-- HERO -->
-  <header class="hero">
-    <div class="blob b1"></div>
-    <div class="blob b2"></div>
-    <div class="blob b3"></div>
+  <header class="hero" id="hero">
+    <div class="blob b1" data-depth="0.15"></div>
+    <div class="blob b2" data-depth="0.25"></div>
+    <div class="blob b3" data-depth="0.35"></div>
     <div class="wrap hero-grid">
       <div>
         <div class="eyebrow">☀️ פתוח עכשיו · קלייה טרייה כל בוקר</div>
-        <h1>קפה שמעיר<br>את <span class="script">היום שלך</span><br>נכון.</h1>
-        <p class="lead">פינה חמה באמצע העיר עם פולי קפה איכותיים, מאפים ביתיים ואווירה שאתם פשוט רוצים להישאר בה. בואו לפגוש את פינקס.</p>
+        <h1>קפה שמעיר<br>את <span class="script">היום שלך</span><br><span class="stroke">נכון.</span></h1>
+        <p class="lead">פינה חמה ברחוב פינקס, קריית אונו — פולי קפה איכותיים, מאפים ביתיים ואווירה שאתם פשוט רוצים להישאר בה. בואו לפגוש את פינקס.</p>
         <div class="hero-actions">
           <a href="#menu" class="btn btn-primary">לתפריט המלא ☕</a>
           <a href="#location" class="btn btn-outline">איך מגיעים</a>
         </div>
         <div class="hero-trust">
           <span class="stars">★★★★★</span>
-          <span>4.9 דירוג ממוצע מעל 600 ביקורות</span>
+          <span>הדירוג שלנו אצל הלקוחות הקבועים</span>
         </div>
       </div>
       <div class="cup-stage">
-        <div class="bean b1">🫘</div>
-        <div class="bean b2">🫘</div>
-        <div class="steam"><i></i><i></i><i></i></div>
-        <div class="cup"><div class="handle"></div></div>
-        <div class="saucer"></div>
+        <div class="scene" id="scene">
+          <div class="sticker">טרי<br>כל בוקר</div>
+          <div class="bean b1" id="bean1">🫘</div>
+          <div class="bean b2" id="bean2">🫘</div>
+          <div class="bean b3" id="bean3">🫘</div>
+          <div class="croissant-layer" id="croissant">🥐</div>
+          <div class="cup-group" id="cupGroup">
+            <div class="steam"><i></i><i></i><i></i></div>
+            <div class="cup"><div class="handle"></div></div>
+          </div>
+          <div class="saucer"></div>
+        </div>
       </div>
     </div>
   </header>
+  <div class="scroll-hint wrap">↓ גללו למטה ותראו את הקפה מתעורר</div>
 
   <!-- MARQUEE -->
   <div class="marquee">
@@ -642,23 +733,26 @@
       <span>🥐 מאפים ביתיים</span>
       <span>🌿 פולים ממקור אחראי</span>
       <span>🎶 אווירה צעירה</span>
-      <span>📍 במרכז העיר</span>
+      <span>📍 רחוב פינקס, קריית אונו</span>
       <span>☕ <em>קלייה טרייה</em> מדי יום</span>
       <span>🥐 מאפים ביתיים</span>
       <span>🌿 פולים ממקור אחראי</span>
       <span>🎶 אווירה צעירה</span>
-      <span>📍 במרכז העיר</span>
+      <span>📍 רחוב פינקס, קריית אונו</span>
     </div>
   </div>
 
   <!-- ABOUT -->
   <section id="about">
     <div class="wrap about-grid">
-      <div class="about-art reveal">🫘</div>
+      <div class="about-art media reveal">
+        <img src="images/about-cafe.jpg" alt="קפה פינקס מבפנים" onerror="this.style.display='none'">
+        <div class="fallback">🫘</div>
+      </div>
       <div>
         <div class="section-tag reveal">הסיפור שלנו</div>
         <h2 class="section-title reveal delay-1">לא עוד בית קפה.<br><span class="hl">חבר'ה שאוהבים קפה.</span></h2>
-        <p class="section-lead reveal delay-2">פינקס נולד מתוך אהבה אמיתית לקפה טוב ולרגעים פשוטים — פגישה עם חברים, עבודה מהשולחן ליד החלון, או רגע שקט עם ספר. כל כוס נקלית טרי, כל מאפה נאפה בבוקר, וכל מי שנכנס — יוצא עם חיוך.</p>
+        <p class="section-lead reveal delay-2">פינקס נולד מתוך אהבה אמיתית לקפה טוב ולרגעים פשוטים — פגישה עם חברים, עבודה מהשולחן ליד החלון, או רגע שקט עם ספר. כל כוס נקלית טרי, כל מאפה נאפה בבוקר, וכל מי שנכנס ברחוב פינקס — יוצא עם חיוך.</p>
         <div class="stat-row reveal delay-3">
           <div class="stat-card"><div class="stat-num" data-count="1200">0</div><div class="stat-label">כוסות קפה בשבוע</div></div>
           <div class="stat-card"><div class="stat-num" data-count="32">0</div><div class="stat-label">סוגי פולים שניסינו</div></div>
@@ -717,20 +811,44 @@
   </section>
 
   <!-- GALLERY -->
+  <!--
+    Drop real café photos into an "images" folder next to this file, named exactly:
+    gallery-bar.jpg, gallery-beans.jpg, gallery-seating.jpg, gallery-breakfast.jpg,
+    gallery-pastries.jpg, gallery-vibe.jpg, and about-cafe.jpg (used above).
+    They'll replace the illustrated placeholders automatically — no code changes needed.
+  -->
   <section id="gallery">
     <div class="wrap">
       <div class="menu-head">
         <div class="section-tag reveal">גלריה</div>
         <h2 class="section-title reveal delay-1">רגעים <span class="hl">מהמקום</span></h2>
-        <p class="section-lead reveal delay-2">הציצו פנימה — ככה נראה יום אצלנו.</p>
+        <p class="section-lead reveal delay-2">הציצו פנימה — ככה נראה יום אצלנו ברחוב פינקס.</p>
       </div>
       <div class="gallery-grid reveal delay-3">
-        <div class="g-item g1" data-label="הבר שלנו">☕</div>
-        <div class="g-item g2" data-label="קליית הפולים">🫘</div>
-        <div class="g-item g3" data-label="פינת הישיבה">🪴</div>
-        <div class="g-item g4" data-label="ארוחת בוקר">🍳</div>
-        <div class="g-item g5" data-label="מאפים טריים">🥐</div>
-        <div class="g-item g6" data-label="האווירה אצלנו">🎶</div>
+        <div class="g-item g1 media" data-label="הבר שלנו">
+          <img src="images/gallery-bar.jpg" alt="הבר שלנו" onerror="this.style.display='none'">
+          <div class="fallback">☕</div>
+        </div>
+        <div class="g-item g2 media" data-label="קליית הפולים">
+          <img src="images/gallery-beans.jpg" alt="קליית הפולים" onerror="this.style.display='none'">
+          <div class="fallback">🫘</div>
+        </div>
+        <div class="g-item g3 media" data-label="פינת הישיבה">
+          <img src="images/gallery-seating.jpg" alt="פינת הישיבה" onerror="this.style.display='none'">
+          <div class="fallback">🪴</div>
+        </div>
+        <div class="g-item g4 media" data-label="ארוחת בוקר">
+          <img src="images/gallery-breakfast.jpg" alt="ארוחת בוקר" onerror="this.style.display='none'">
+          <div class="fallback">🍳</div>
+        </div>
+        <div class="g-item g5 media" data-label="מאפים טריים">
+          <img src="images/gallery-pastries.jpg" alt="מאפים טריים" onerror="this.style.display='none'">
+          <div class="fallback">🥐</div>
+        </div>
+        <div class="g-item g6 media" data-label="האווירה אצלנו">
+          <img src="images/gallery-vibe.jpg" alt="האווירה אצלנו" onerror="this.style.display='none'">
+          <div class="fallback">🎶</div>
+        </div>
       </div>
     </div>
   </section>
@@ -740,7 +858,7 @@
     <div class="wrap" style="text-align:center">
       <div class="section-tag reveal">מה אומרים עלינו</div>
       <h2 class="section-title reveal delay-1">לא רק <span class="hl">אנחנו</span> חושבים שטעים</h2>
-      <p class="section-lead reveal delay-2" style="margin:0 auto">600+ ביקורות עם דירוג ממוצע של 4.9 כוכבים.</p>
+      <p class="section-lead reveal delay-2" style="margin:0 auto">לקוחות קבועים מספרים למה הם חוזרים.</p>
 
       <div class="testi-wrap reveal delay-3">
         <div class="testi-card active">
@@ -781,7 +899,7 @@
         <h2 class="section-title reveal delay-1">בואו <span class="hl">תרגישו בבית</span></h2>
         <div class="hours-list reveal delay-2" id="hoursList"></div>
         <div class="contact-mini reveal delay-3">
-          <div class="contact-chip">📍 רחוב דיזנגוף 99, תל אביב</div>
+          <div class="contact-chip">📍 רחוב פינקס 24, קריית אונו</div>
           <div class="contact-chip">📞 03-1234567</div>
           <div class="contact-chip">📷 ‎@cafepinkas</div>
         </div>
@@ -807,13 +925,23 @@
   <!-- FOOTER -->
   <footer>
     <div class="wrap">
-      <div class="logo" style="justify-content:center"><div class="logo-mark">☕</div>קפה <span>פינקס</span></div>
+      <div class="footer-logo">
+        <svg class="logo-mark" viewBox="0 0 100 100" width="34" height="34">
+          <circle class="ring" cx="50" cy="50" r="46"/>
+          <circle class="dash" cx="50" cy="50" r="37"/>
+          <path class="glyph" d="M30 46 h32 v16 a16 16 0 0 1 -16 16 a16 16 0 0 1 -16 -16 z"/>
+          <path class="glyph-line" d="M62 50 q13 0 13 10 q0 10 -13 8"/>
+          <path class="glyph-line" d="M37 40 q-2 -6 2 -10"/>
+          <path class="glyph-line" d="M46 40 q-2 -6 2 -10"/>
+        </svg>
+        קפה <span style="color:var(--terracotta)">פינקס</span>
+      </div>
       <div class="footer-social">
         <a href="#" aria-label="אינסטגרם">📷</a>
         <a href="#" aria-label="פייסבוק">📘</a>
         <a href="#" aria-label="וואטסאפ">💬</a>
       </div>
-      <div class="footer-fine">© קפה פינקס · נבנה באהבה ובקפאין ☕</div>
+      <div class="footer-fine">© קפה פינקס · רחוב פינקס 24, קריית אונו · נבנה באהבה ובקפאין ☕</div>
     </div>
   </footer>
 
@@ -891,15 +1019,15 @@
   function changeTesti(dir) { setTesti(testiIndex + dir); }
   setInterval(() => changeTesti(1), 6000);
 
-  // hours + open/closed
+  // hours + open/closed (real hours: Sun-Thu 7-19, Fri 7-14, Sat closed)
   const hours = [
-    { day: 'ראשון', open: 7, close: 22 },
-    { day: 'שני', open: 7, close: 22 },
-    { day: 'שלישי', open: 7, close: 22 },
-    { day: 'רביעי', open: 7, close: 22 },
-    { day: 'חמישי', open: 7, close: 22 },
-    { day: 'שישי', open: 7, close: 15 },
-    { day: 'שבת', open: 9, close: 22 }
+    { day: 'ראשון', open: 7, close: 19 },
+    { day: 'שני', open: 7, close: 19 },
+    { day: 'שלישי', open: 7, close: 19 },
+    { day: 'רביעי', open: 7, close: 19 },
+    { day: 'חמישי', open: 7, close: 19 },
+    { day: 'שישי', open: 7, close: 14 },
+    { day: 'שבת', open: null, close: null }
   ];
   const now = new Date();
   const todayIdx = now.getDay();
@@ -907,9 +1035,12 @@
   const hoursList = document.getElementById('hoursList');
   hours.forEach((h, i) => {
     const row = document.createElement('div');
+    const closedDay = h.open === null;
     row.className = 'hours-row' + (i === todayIdx ? ' today' : '');
-    const isOpenNow = i === todayIdx && currentHour >= h.open && currentHour < h.close;
-    row.innerHTML = `<span>${h.day}</span><span>${i === todayIdx ? `<span class="open-pill ${isOpenNow ? '' : 'closed-pill'}">${isOpenNow ? 'פתוח עכשיו' : 'סגור עכשיו'}</span>` : ''}${h.open}:00–${h.close}:00</span>`;
+    const isOpenNow = !closedDay && i === todayIdx && currentHour >= h.open && currentHour < h.close;
+    const timeText = closedDay ? 'סגור' : `${h.open}:00–${h.close}:00`;
+    const pill = i === todayIdx ? `<span class="open-pill ${isOpenNow ? '' : 'closed-pill'}">${isOpenNow ? 'פתוח עכשיו' : 'סגור עכשיו'}</span>` : '';
+    row.innerHTML = `<span>${h.day}</span><span>${pill}${timeText}</span>`;
     hoursList.appendChild(row);
   });
 
@@ -919,6 +1050,49 @@
     document.getElementById('clubSuccess').classList.add('show');
     this.reset();
   });
+
+  // ===== scroll-driven hero animation: cup tilts + pours, croissant floats & spins, beans drift =====
+  const heroEl = document.getElementById('hero');
+  const cupGroup = document.getElementById('cupGroup');
+  const croissant = document.getElementById('croissant');
+  const blobs = document.querySelectorAll('.blob');
+  const beans = [document.getElementById('bean1'), document.getElementById('bean2'), document.getElementById('bean3')];
+  let ticking = false;
+
+  function heroProgress() {
+    const rect = heroEl.getBoundingClientRect();
+    const total = heroEl.offsetHeight - window.innerHeight;
+    if (total <= 0) return 0;
+    const scrolled = -rect.top;
+    return Math.min(Math.max(scrolled / total, 0), 1);
+  }
+
+  function applyScrollAnim() {
+    const p = heroProgress();
+
+    cupGroup.style.transform = `rotate(${p * -16}deg) translateY(${-p * 18}px)`;
+    croissant.style.transform = `translateY(${-p * 150}px) translateX(${-p * 50}px) rotate(${p * 260}deg) scale(${1 - p * 0.25})`;
+
+    beans.forEach((b, i) => {
+      const dir = i % 2 === 0 ? 1 : -1;
+      b.style.transform = `translateY(${-p * (60 + i * 20)}px) translateX(${dir * p * 30}px) rotate(${p * 180 * dir}deg)`;
+    });
+
+    blobs.forEach(b => {
+      const depth = parseFloat(b.dataset.depth || '0.2');
+      b.style.transform = `translateY(${-p * 100 * depth * 4}px)`;
+    });
+
+    ticking = false;
+  }
+
+  window.addEventListener('scroll', () => {
+    if (!ticking) {
+      requestAnimationFrame(applyScrollAnim);
+      ticking = true;
+    }
+  });
+  applyScrollAnim();
 </script>
 </body>
 </html>
